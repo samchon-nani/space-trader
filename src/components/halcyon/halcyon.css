@@ -1,0 +1,75 @@
+/* HALCYON-OS terminal styles. Theme tokens are set on .hc-root by HalcyonTerminal.applyTheme(). */
+.hc-root {
+  --bg: #0c0804; --panel: #120c06; --fg: #ffb347; --dim: #9a7140; --hi: #ffe2b8; --line: #5a3f1f;
+  --alert: #ff5c38; --acc: #fff1a8; --glow: rgba(255, 170, 60, .45); --font: var(--font-vt323), 'VT323', monospace; --fs: 19px;
+  position: fixed; inset: 0; background: var(--bg); color: var(--fg); font-family: var(--font); font-size: var(--fs);
+  line-height: 1.3; text-shadow: 0 0 6px var(--glow); display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 14px; padding: 12px 14px 8px; box-sizing: border-box; overflow: hidden;
+}
+.hc-root.hc-tmux { grid-template-rows: auto minmax(0, 1fr) auto auto; }
+.hc-root *, .hc-root *::before, .hc-root *::after { box-sizing: border-box; }
+.hc-root button, .hc-root input, .hc-root select, .hc-root textarea { font: inherit; color: inherit; text-shadow: inherit; margin: 0; }
+.hc-root button { background: transparent; cursor: pointer; }
+.hc-root button:disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
+.hc-root option { background: #000; }
+.hc-root a { color: var(--hi); }
+.hc-root a:hover { color: var(--acc); }
+.hc-root ::-webkit-scrollbar { width: 8px; height: 8px; }
+.hc-root ::-webkit-scrollbar-thumb { background: var(--line); }
+.hc-root ::-webkit-scrollbar-track { background: transparent; }
+.hc-root ::selection { background: var(--fg); color: var(--bg); }
+
+@keyframes stv-blink { 50% { opacity: 0; } }
+@keyframes stv-flicker { 0%, 100% { opacity: 1; } 47% { opacity: .97; } 50% { opacity: .86; } 53% { opacity: .98; } }
+
+/* hover helpers (the design's style-hover attributes) */
+.hc-fill:hover { background: var(--fg) !important; color: var(--bg) !important; }
+.hc-acc:hover { color: var(--acc) !important; }
+.hc-bord:hover { border-color: var(--fg) !important; }
+.hc-alert:hover { background: var(--alert) !important; color: var(--bg) !important; }
+.hc-hifill:hover { background: var(--hi) !important; }
+.hc-acc-fill:hover { background: var(--acc) !important; color: var(--bg) !important; }
+.hc-input { background: transparent; border: 1px solid var(--line); padding: 6px 8px; outline: none; width: 100%; }
+.hc-input:focus { border-color: var(--fg); }
+
+/* building blocks */
+.hc-btn { border: 1px solid var(--line); padding: 1px 10px; }
+.hc-btn-sm { border: 1px solid var(--line); padding: 0 6px; }
+.hc-btn-fg { border: 1px solid var(--fg); padding: 1px 10px; }
+.hc-dim { color: var(--dim); }
+.hc-hi { color: var(--hi); }
+.hc-accent { color: var(--acc); }
+.hc-ell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hc-col { display: flex; flex-direction: column; }
+.hc-rule { color: var(--dim); border-bottom: 1px dashed var(--line); padding-bottom: 3px; }
+.hc-kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; }
+.hc-scroll { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
+.hc-card { border: 1px dashed var(--line); padding: 8px 10px; display: flex; flex-direction: column; }
+
+.hc-panel { position: relative; border: 1px solid var(--line); background: var(--panel); padding: 14px 12px 10px; display: flex; flex-direction: column; min-height: 0; }
+.hc-panel-title { position: absolute; top: -0.7em; left: 10px; max-width: calc(100% - 28px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 6px; background: var(--bg); color: var(--hi); letter-spacing: .08em; }
+
+.hc-topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.hc-layout-link { padding: 0 6px; color: var(--fg) !important; text-decoration: none; }
+.hc-layout-link.on { background: var(--fg); color: var(--bg) !important; text-shadow: none; }
+.hc-statusbar { display: flex; justify-content: space-between; gap: 12px; background: var(--fg); color: var(--bg); text-shadow: none; padding: 0 8px; margin: 0 -14px -8px; white-space: nowrap; overflow: hidden; }
+
+.hc-crt { position: fixed; inset: 0; pointer-events: none; z-index: 40; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,.24) 3px, rgba(0,0,0,0) 4px); animation: stv-flicker 7s infinite; }
+.hc-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 58%, rgba(0,0,0,.6) 100%); }
+.hc-cursor { animation: stv-blink 1s steps(1) infinite; color: var(--fg); }
+
+/* desktop windows */
+.hc-desk { position: relative; min-height: 0; overflow: hidden; background-image: radial-gradient(var(--line) 1px, transparent 1.6px); background-size: 26px 26px; margin: 0 -14px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.hc-win { position: absolute; flex-direction: column; background: var(--panel); box-shadow: 0 0 0 3px var(--bg), 0 18px 40px rgba(0,0,0,.55); }
+.hc-win-bar { display: flex; align-items: center; gap: 8px; padding: 2px 4px 2px 10px; text-shadow: none; cursor: move; user-select: none; flex: none; }
+.hc-win-body { flex: 1; min-height: 0; overflow: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
+.hc-win-grip { position: absolute; right: 1px; bottom: 1px; width: 12px; height: 12px; cursor: nwse-resize; border-right: 2px solid var(--dim); border-bottom: 2px solid var(--dim); }
+
+/* selected list row: dark text on the bright background */
+.hc-selected, .hc-selected .hc-dim, .hc-selected .hc-accent, .hc-selected:hover { color: var(--bg) !important; text-shadow: none; }
+
+/* narrow screens: keep the cockpit at a usable size and scroll sideways; the login screen fits the phone */
+@media (max-width: 900px) {
+  .hc-root { grid-template-columns: minmax(900px, 1fr); overflow: auto; }
+  .hc-root .hc-boot { padding: 12px !important; }
+}
